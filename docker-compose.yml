@@ -7,12 +7,22 @@ services:
       POSTGRES_PASSWORD: sbd1_password
       POSTGRES_DB: jogo
     ports:
-      - "5432:5432"
+      - "6000:5432"
     volumes:
       # Mapeia nosso script de inicialização único para a pasta correta no container
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      # Mantém o volume para persistir os dados
       - postgres_data:/var/lib/postgresql/data
+  controla_migracoes:
+    image: flyway/flyway:latest
+    container_name: migracoes
+    depends_on: 
+      - banco_de_dados
+    environment:
+      FLYWAY_URL: jdbc:postgresql://banco_de_dados:5432/jogo
+      FLYWAY_USER: jogador
+      FLYWAY_PASSWORD: sbd1_password  # Corrigido: sdb1 -> sbd1
+    volumes:
+      - ./src/migracoes:/flyway/sql
+    entrypoint: ["flyway", "migrate"]
 
 volumes:
   postgres_data:

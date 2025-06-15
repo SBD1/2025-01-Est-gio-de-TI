@@ -2,34 +2,22 @@
 -- 1. Estrutura Física
 -- ==========================
 
--- Listar todos os mundos
+
 SELECT * FROM Mundo;
 
--- Listar todos os andares de um mundo específico
 SELECT * FROM Andar WHERE id_mundo = 1 ORDER BY numero;
 
--- Listar todas as salas de um andar
 SELECT * FROM Sala WHERE id_andar = 1;
 
--- Listar todas as cafeterias
-SELECT * FROM Cafeteria;
 
 
 -- ==========================
 -- 2. Personagens
 -- ==========================
 
--- Listar todos os personagens
-SELECT * FROM Personagem;
+SELECT * FROM Estagiario;
 
--- Listar todos os estagiários
-SELECT * FROM Estagiario
-JOIN Personagem ON Estagiario.id_personagem = Personagem.id_personagem;
 
--- Listar todos os NPCs e suas funções
-SELECT NPC.*, Personagem.nome, Personagem.descricao
-FROM NPC
-JOIN Personagem ON NPC.id_personagem = Personagem.id_personagem;
 
 -- Listar todos os chefes finais
 SELECT ChefeFinal.*, Personagem.nome
@@ -225,4 +213,5 @@ SELECT 'Demanda' AS tipo, D.nome, D.descricao
 FROM Demanda D
 LEFT JOIN DemandaConcluida DC ON D.id_demanda = DC.id_demanda AND DC.id_estagiario = 1
 WHERE DC.id_demanda IS NULL;
+
 

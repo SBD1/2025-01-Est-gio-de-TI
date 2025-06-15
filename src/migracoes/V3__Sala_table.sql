@@ -15,9 +15,8 @@ CREATE TABLE IF NOT EXISTS ConexaoSala (
     id_sala_destino INT NOT NULL,
     FOREIGN KEY (id_sala_destino) REFERENCES Sala(id_sala),
 
-    direcao VARCHAR(10) NOT NULL CHECK (direcao IN ('Norte', 'Sul', 'Leste', 'Oeste')),
-    descricao VARCHAR(200),
 
-    PRIMARY KEY (id_sala_origem, direcao),
-    UNIQUE (id_sala_origem, id_sala_destino)
+    PRIMARY KEY (id_sala_origem, id_sala_destino),
+    CHECK (id_sala_origem != id_sala_destino)
 );
+

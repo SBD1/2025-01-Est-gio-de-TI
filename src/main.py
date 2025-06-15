@@ -75,7 +75,7 @@ def game_loop(personagem_id, personagem_nome):
 
         # 2. Exibe as informações do local
         print(f"--- {personagem_nome} ---")
-        print(f"Você está em: {nome_sala}")
+        print(f"Você está no: {nome_sala}")
         print(descricao_sala)
         print("\n--------------------")
         print("O que você faz?\n")

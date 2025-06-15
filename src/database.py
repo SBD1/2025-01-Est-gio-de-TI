@@ -1,7 +1,7 @@
 import psycopg2
 
 DB_HOST = "localhost"
-DB_PORT = "5432"
+DB_PORT = "6000"
 DB_NAME = "jogo"
 DB_USER = "jogador"
 DB_PASS = "sbd1_password"
@@ -22,7 +22,7 @@ def call_db_function(function_name, *args):
         return "[ERRO] Não foi possível conectar ao banco de dados."
     try:
         with conn.cursor() as cur:
-            cur.execute(f"SELECT SBD1.{function_name}({', '.join(['%s'] * len(args))});", args)
+            cur.execute(f"SELECT {function_name}({', '.join(['%s'] * len(args))});", args)
             result = cur.fetchone()[0]
             conn.commit()
     except Exception as e:
@@ -38,7 +38,7 @@ def get_all_characters():
     if not conn: return characters
     try:
         with conn.cursor() as cur:
-            cur.execute("SELECT id, nome FROM SBD1.Personagem ORDER BY id;")
+            cur.execute("SELECT id_personagem, nome FROM Estagiario ORDER BY id_personagem;")
             characters = cur.fetchall()
     except Exception as e:
         print(f"Erro ao buscar personagens: {e}")
@@ -58,9 +58,7 @@ def get_location_details(personagem_id):
 
     try:
         with conn.cursor() as cur:
-            # Chama a nova função
-            cur.execute("SELECT * FROM SBD1.descrever_local_detalhado(%s);", (personagem_id,))
-            # Pega a linha inteira de resultado (nome, desc, saidas_array)
+            cur.execute("SELECT * FROM descrever_local_detalhado(%s);", (personagem_id,))
             details = cur.fetchone()
     except Exception as e:
         print(f"Erro ao buscar detalhes do local: {e}")
